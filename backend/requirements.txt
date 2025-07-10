@@ -1,6 +1,4 @@
-flask
-flask-cors
-opencv-python
-mediapipe
-numpy
-werkzeug
+Flask==2.3.2
+gunicorn==21.2.0
+mediapipe==0.10.3
+opencv-python==4.9.0.80

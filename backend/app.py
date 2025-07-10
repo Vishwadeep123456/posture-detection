@@ -3,6 +3,12 @@ from flask_cors import CORS
 import cv2
 import mediapipe as mp
 import numpy as np
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "Backend is running!"  # ✅ Railway test ke liye
+
 
 app = Flask(__name__)
 CORS(app)
