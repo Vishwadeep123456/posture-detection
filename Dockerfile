@@ -1,17 +1,19 @@
-# Use Python base image
-FROM python:3.9
-
-# Set the working directory
+# STEP 1: Build React app
+FROM node:18 AS frontend
 WORKDIR /app
+COPY frontend/ ./frontend
+WORKDIR /app/frontend
+RUN npm install
+RUN npm run build
 
-# Copy all files
-COPY . .
+# STEP 2: Setup Python backend
+FROM python:3.9-slim AS backend
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install -r requirements.txt
 
-# Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+COPY backend/ ./backend
+COPY --from=frontend /app/frontend/build ./frontend/build
 
-# Expose port (for gunicorn)
-EXPOSE 8000
-
-# Run the Flask app via gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "app:app"]
+CMD ["gunicorn", "--chdir", "backend", "app:app", "--bind", "0.0.0.0:5000"]
+"0.0.0.0:8000", "app:app"]
