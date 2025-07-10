@@ -1,7 +1,2 @@
-flask
-flask-cors
-opencv-python
-numpy
-werkzeug
-git+https://github.com/google/mediapipe.git
-
+Flask==2.3.2
+gunicorn==21.2.0
