@@ -1,12 +1,13 @@
-# STEP 1: Build React app
+# Step 1: Build React frontend
 FROM node:18 AS frontend
 WORKDIR /app
-COPY frontend/ ./frontend
+COPY frontend/package.json frontend/package-lock.json* ./frontend/
 WORKDIR /app/frontend
 RUN npm install
+COPY frontend/ ./  # Copy remaining source files after install
 RUN npm run build
 
-# STEP 2: Setup Python backend
+# Step 2: Setup Python backend
 FROM python:3.9-slim AS backend
 WORKDIR /app
 COPY requirements.txt .
