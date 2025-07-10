@@ -3,4 +3,5 @@ flask-cors
 opencv-python
 numpy
 werkzeug
-git+https://github.com/google/mediapipe.git#egg=mediapipe
+git+https://github.com/google/mediapipe.git
+
