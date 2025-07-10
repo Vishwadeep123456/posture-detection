@@ -15,5 +15,4 @@ RUN pip install -r requirements.txt
 COPY backend/ ./backend
 COPY --from=frontend /app/frontend/build ./frontend/build
 
-CMD ["gunicorn", "--chdir", "backend", "app:app", "--bind", "0.0.0.0:5000"]
-"0.0.0.0:8000", "app:app"]
+CMD ["gunicorn", "--chdir", "backend", "app:app", "--bind", "0.0.0.0:8000"]
