@@ -1,2 +1,9 @@
-backend/venv/ 
-Dockerfile
+node_modules/
+venv/
+__pycache__/
+*.pyc
+.env
+.env.*
+frontend/build/
+backend/uploads/
+backend/temp.mp4

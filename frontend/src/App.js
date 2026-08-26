@@ -1,23 +1,91 @@
-import React from 'react';
-import './App.css';
-import VideoUpload from './VideoUpload';
-import WebcamCapture from './WebcamCapture';
+import React from "react";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import VideoUpload from "./pages/VideoUpload";
+import WebcamCapture from "./pages/WebcamCapture";
+
+import "./App.css";
 
 function App() {
   return (
-    <div className="app-container">
-      <h1> Bad Posture Detection App</h1>
+    <BrowserRouter>
 
-      <div className="section">
-        <h2> Upload Video</h2>
-        <VideoUpload />
-      </div>
+      <Routes>
 
-      <div className="section">
-        <h2> Live Webcam Analysis</h2>
-        <WebcamCapture />
-      </div>
-    </div>
+        {/* =====================
+            DEFAULT PAGE
+        ===================== */}
+
+        <Route
+          path="/"
+          element={
+            <Navigate
+              to="/register"
+              replace
+            />
+          }
+        />
+
+        {/* =====================
+            REGISTER
+        ===================== */}
+
+        <Route
+          path="/register"
+          element={<Register />}
+        />
+
+        {/* =====================
+            LOGIN
+        ===================== */}
+
+        <Route
+          path="/login"
+          element={<Login />}
+        />
+
+        {/* =====================
+            VIDEO UPLOAD
+        ===================== */}
+
+        <Route
+          path="/upload"
+          element={<VideoUpload />}
+        />
+
+        {/* =====================
+            WEBCAM
+        ===================== */}
+
+        <Route
+          path="/webcam"
+          element={<WebcamCapture />}
+        />
+
+        {/* =====================
+            INVALID URL
+        ===================== */}
+
+        <Route
+          path="*"
+          element={
+            <Navigate
+              to="/register"
+              replace
+            />
+          }
+        />
+
+      </Routes>
+
+    </BrowserRouter>
   );
 }
 

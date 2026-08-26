@@ -1,18 +1,47 @@
-# Step 1: Build React frontend
-FROM node:18 AS frontend
+# 1. बेस इमेज चुनें
+# हम Node.js के साथ एक हल्की Linux इमेज का उपयोग करते हैं
+FROM node:20-alpine
+
+# 2. वर्किंग डायरेक्टरी सेट करें
+# यह वह डायरेक्टरी है जहाँ आपका ऐप कंटेनर के अंदर रहेगा
 WORKDIR /app
-COPY frontend/package.json frontend/package-lock.json* ./
+
+# 3. सिर्फ package.json और package-lock.json फाइलों को कॉपी करें
+# ऐसा करने से 'npm install' के लिए Docker लेयर को कैश किया जा सकता है, जो तेज़ होता है
+COPY package*.json ./
+
+# 4. नोड डिपेंडेंसीज़ इंस्टॉल करें
+# यह npm install कमांड है जो 'react-scripts' और अन्य सभी पैकेजों को इंस्टॉल करेगा
 RUN npm install
-COPY frontend/ ./
+
+# 5. बाकी के प्रोजेक्ट कोड को कॉपी करें
+# अब, जब डिपेंडेंसीज़ इंस्टॉल हो चुकी हैं, तो पूरा सोर्स कोड कॉपी करें
+COPY . .
+
+# 6. बिल्ड कमांड चलाएं
+# अब जब सब कुछ इंस्टॉल हो गया है, तो 'npm run build' चलाएं
+# ENV CI=true कुछ खास बिल्ड एनवायरनमेंट इश्यूज़ को हल करने में मदद कर सकता है
 RUN npm run build
 
-# Step 2: Setup Python backend
-FROM python:3.9-slim AS backend
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install -r requirements.txt
+# 7. आउटपुट फोल्डर से फाइलें सर्व करने के लिए एक हल्की इमेज पर स्विच करें (वैकल्पिक लेकिन अनुशंसित)
+# यह आपकी फाइनल Docker इमेज के साइज़ को काफी कम कर देगा
+FROM nginx:alpine
 
-COPY backend/ ./backend
-COPY --from=frontend /app/build ./frontend/build
+# Nginx की डिफ़ॉल्ट कॉन्फ़िग को हटाएं
+RUN rm -rf /etc/nginx/conf.d/*
 
-CMD ["gunicorn", "--chdir", "backend", "app:app", "--bind", "0.0.0.0:8000"]
+# अपनी Nginx कॉन्फ़िगरेशन कॉपी करें (आपको इसे अपने प्रोजेक्ट में बनाना होगा)
+# एक उदाहरण nginx.conf या default.conf फाइल जो build फोल्डर को सर्व करती है
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# पिछले बिल्ड स्टेप से build फोल्डर की सामग्री को कॉपी करें
+COPY --from=0 /app/build /usr/share/nginx/html
+
+# Nginx को पोर्ट 80 पर सुनने के लिए उजागर करें
+EXPOSE 80
+
+# Nginx सर्वर शुरू करें
+CMD ["nginx", "-g", "daemon off;"]
+
+# अगर आप केवल बिल्ड कर रहे हैं और फिर कंटेनर को हटा रहे हैं, तो आप Nginx वाला हिस्सा छोड़ सकते हैं
+# और सिर्फ बिल्ड वाले Dockerfile को उपयोग कर सकते हैं।
