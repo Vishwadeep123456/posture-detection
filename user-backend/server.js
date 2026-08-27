@@ -7,7 +7,7 @@ const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 
-const allowedOrigins = ["http://localhost:3000", "http://localhost:3001", "http://localhost:3003"];
+const allowedOrigins = ["https://posture-detection-a9vf-kappa.vercel.app",];
 
 app.use(express.json());
 app.use(cors({
