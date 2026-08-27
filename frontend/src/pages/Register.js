@@ -6,6 +6,7 @@ function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -13,11 +14,20 @@ function Register() {
     setError("");
 
     try {
-      const res = await fetch("http://localhost:5001/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password }),
-      });
+      const res = await fetch(
+        "https://posture-detection-16.onrender.com/api/auth/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name,
+            email,
+            password,
+          }),
+        }
+      );
 
       const data = await res.json();
 
@@ -26,14 +36,14 @@ function Register() {
       }
 
       console.log("Register Success:", data);
+
       navigate("/login");
     } catch (err) {
       console.error("Register Error:", err);
-      setError(err.message);
+      setError(err.message || "Something went wrong");
     }
   };
 
-  // ✅ Inline styles
   const styles = {
     wrapper: {
       display: "flex",
@@ -42,6 +52,7 @@ function Register() {
       minHeight: "100vh",
       background: "linear-gradient(135deg, #6a11cb, #2575fc)",
     },
+
     card: {
       background: "#fff",
       padding: "2rem 2.5rem",
@@ -50,32 +61,37 @@ function Register() {
       width: "350px",
       textAlign: "center",
     },
+
     title: {
       marginBottom: "0.5rem",
       color: "#333",
     },
+
     subtitle: {
       fontSize: "0.9rem",
       color: "#666",
       marginBottom: "1.5rem",
     },
+
     form: {
       display: "flex",
       flexDirection: "column",
       gap: "1rem",
     },
+
     label: {
       textAlign: "left",
       fontWeight: "500",
       color: "#444",
     },
+
     input: {
       padding: "0.7rem",
       border: "1px solid #ccc",
       borderRadius: "8px",
       outline: "none",
-      transition: "border 0.3s",
     },
+
     button: {
       background: "#2575fc",
       color: "#fff",
@@ -84,19 +100,18 @@ function Register() {
       borderRadius: "8px",
       cursor: "pointer",
       fontWeight: "bold",
-      transition: "background 0.3s",
     },
-    buttonHover: {
-      background: "#1a5edb",
-    },
+
     error: {
       color: "red",
       marginTop: "1rem",
     },
+
     loginLink: {
       marginTop: "1rem",
       fontSize: "0.9rem",
     },
+
     loginSpan: {
       color: "#2575fc",
       cursor: "pointer",
@@ -108,10 +123,14 @@ function Register() {
     <div style={styles.wrapper}>
       <div style={styles.card}>
         <h2 style={styles.title}>Create Account</h2>
-        <p style={styles.subtitle}>Join us and start your journey 🚀</p>
+
+        <p style={styles.subtitle}>
+          Join us and start your journey 🚀
+        </p>
 
         <form style={styles.form} onSubmit={handleSubmit}>
           <label style={styles.label}>Name</label>
+
           <input
             style={styles.input}
             type="text"
@@ -122,6 +141,7 @@ function Register() {
           />
 
           <label style={styles.label}>Email</label>
+
           <input
             style={styles.input}
             type="email"
@@ -132,6 +152,7 @@ function Register() {
           />
 
           <label style={styles.label}>Password</label>
+
           <input
             style={styles.input}
             type="password"
@@ -141,12 +162,7 @@ function Register() {
             required
           />
 
-          <button
-            type="submit"
-            style={styles.button}
-            onMouseOver={(e) => (e.target.style.background = "#1a5edb")}
-            onMouseOut={(e) => (e.target.style.background = "#2575fc")}
-          >
+          <button type="submit" style={styles.button}>
             Register
           </button>
         </form>
@@ -155,7 +171,11 @@ function Register() {
 
         <p style={styles.loginLink}>
           Already have an account?{" "}
-          <span style={styles.loginSpan} onClick={() => navigate("/login")}>
+
+          <span
+            style={styles.loginSpan}
+            onClick={() => navigate("/login")}
+          >
             Login
           </span>
         </p>
