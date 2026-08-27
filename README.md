@@ -1,24 +1,34 @@
- Bad Posture Detection App
 
-A Full-Stack web app to detect bad posture in exercise/sitting using Flask, React, and MediaPipe.
+# AI-Based Bad Posture Detection System
 
-Features
+## 🚀 Live Demo
+Frontend: https://posture-detection-a9vf-kappa.vercel.app
 
- Upload video (squat or desk posture)
- Rule-based pose analysis (e.g., knee-hip angle)
- MediaPipe + OpenCV integration
- Output: Good vs Bad posture
- Modular backend logic (`posturedetector.py`)
- Simple React-based UI
+## 🔧 Backend APIs
+Node.js: https://posture-detection-16.onrender.com
+Flask: https://posture-detection-18.onrender.com
 
- Tech Stack
+## 🛠 Tech Stack
+React.js
+Node.js
+Express.js
+MongoDB
+Flask
+MediaPipe
+OpenCV
+JWT
 
-- Frontend: React, HTML/CSS/JS
-- Backend:Python Flask
-- Pose Detection: MediaPipe, OpenCV
-- Storage: Local (no DB used)
+## ✨ Features
+- User Registration/Login
+- JWT Authentication
+- Webcam Posture Detection
+- Video Upload
+- Real-time Posture Analysis
+- Posture Score
+- REST APIs
 
----
-
- Folder Structure
-
+## 🚀 Deployment
+Frontend → Vercel
+Node Backend → Render
+Flask Backend → Render
+Database → MongoDB Atlas
